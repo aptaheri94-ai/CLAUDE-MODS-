@@ -30,6 +30,10 @@ then, for each mod:
 
 Desktop app: click + next to the prompt box, then Plugins, Add marketplace with `aptaheri94-ai/claude-mods-`, then Add plugin.
 
+## Cloud sessions (Claude Code on the web)
+
+Cloud sessions don't install plugins from a repo's `.claude/settings.json`, and plugins installed on your own machine don't carry over. Instead, paste [`cloud-setup.sh`](cloud-setup.sh) into your cloud environment's **Setup script** box (claude.ai/code → environment settings). It runs before a session starts, installs every mod above plus You Should Know, and the environment cache keeps them for later sessions. The environment's network access must allow GitHub (the default **Limited** level does).
+
 ## Updating a mod
 
 Review the upstream changes, then replace that entry's `sha` in `.claude-plugin/marketplace.json` and run `/plugin marketplace update my-mods`.
