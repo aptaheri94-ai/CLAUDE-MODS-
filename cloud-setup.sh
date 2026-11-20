@@ -18,4 +18,40 @@ done
 
 claude plugin enable cc-plugin-you-should-know@builtin || true
 
+# Skins keeps its made skins and chosen look in a per-mod store file named
+# skins_my-mods-<first 12 hex of sha256("skins@my-mods")>.json. Seed it with
+# the purple-night skin so cloud sessions start in it. An existing store file
+# is left alone, so a look changed later in the cloud is not overwritten.
+store_dir="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/plugins/store"
+store_file="$store_dir/skins_my-mods-eb9daee7b1d1.json"
+if [ ! -e "$store_file" ]; then
+  mkdir -p "$store_dir" && cat > "$store_file" <<'JSON' || true
+{
+  "custom": {
+    "purple-night": {
+      "name": "purple-night",
+      "label": "purple-night",
+      "base": "dracula",
+      "palette": {
+        "user": "#a978ff", "fg": "#e6e1f5", "muted": "#a49cbf",
+        "surface": "#221b33", "zebra": "#1b1628",
+        "read": "#8fb8ff", "write": "#e87ba4", "run": "#ffcb6b",
+        "search": "#7fdbca", "web": "#6da7ec", "mcp": "#c3a6ff", "other": "#b8b0d0",
+        "ok": "#7ee08a", "err": "#ff6b81", "warn": "#f0b45e"
+      },
+      "spinner": ["در حال فکر", "در حال کار", "در حال ساختن", "در حال بررسی", "در حال نوشتن"],
+      "done": ["تمام شد", "انجام شد", "آماده شد"]
+    }
+  },
+  "prefs": {
+    "skin": "purple-night", "icons": "unicode", "prompt": "left", "words": "skin",
+    "rail": true, "tables": "on", "shimmer": true, "band": true, "countdown": false,
+    "clipOutput": false, "markdown": true, "quiet": false, "charts": true, "math": true,
+    "commands": true, "shell": true, "highlight": true, "hints": true, "links": true,
+    "copy": true, "fold": true, "expand": false, "compact": true, "calm": null
+  }
+}
+JSON
+fi
+
 exit 0
