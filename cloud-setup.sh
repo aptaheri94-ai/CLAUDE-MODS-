@@ -21,13 +21,9 @@ claude plugin marketplace add aptaheri94-ai/claude-mods- \
 
 # reflect-mod is left out in the cloud: it writes to CLAUDE.md by itself, and
 # hamyarbot's CLAUDE.md is capped and changed only with the owner's word.
-for mod in savvy-progress skins filetree cache-tax blast-radius replay-theater; do
+for mod in savvy-progress skins filetree blast-radius replay-theater; do
   claude plugin install "$mod@my-mods" --scope user || fail "install $mod"
 done
-
-# cache-tax: no automatic keepwarm (it spends tokens); /keepwarm still arms it.
-echo '{"autoWarm":"off"}' | claude plugin configure cache-tax@my-mods --values-stdin \
-  || fail "cache-tax autoWarm off"
 
 claude plugin enable cc-plugin-you-should-know@builtin || fail "enable you-should-know"
 

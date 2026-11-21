@@ -9,8 +9,6 @@
       "source": { "source": "github", "repo": "hellosverre/claude-skins", "sha": "cf0d39f3785d5c5a4b6189ecc487b1ac479efea0" } },
     { "name": "filetree", "description": "File tree pane showing what Claude reads and writes.",
       "source": { "source": "github", "repo": "data-goblin/claude-code-filetree", "sha": "1fdc3a963f2dc22a939f661ff0ff5a76646c9112" } },
-    { "name": "cache-tax", "description": "Shows prompt-cache cost and guards cold sends.",
-      "source": { "source": "github", "repo": "karanb192/cache-tax", "sha": "535ff33225e666e605e731d78f5ac5efe243c7c3" } },
     { "name": "blast-radius", "description": "Holds risky shell commands and shows what they would change.",
       "source": { "source": "git-subdir", "url": "https://github.com/anthropics/claude-code-playground.git", "path": "claude-code/mods/blast-radius", "sha": "569c5283d9a0a7ee7938df85bb32e4f48cbb8c86" } },
     { "name": "reflect-mod", "description": "Finds reusable corrections in your prompts and saves them to CLAUDE.md.",
