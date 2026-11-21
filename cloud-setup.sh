@@ -10,48 +10,37 @@ if ! command -v claude >/dev/null 2>&1; then
   exit 0
 fi
 
-claude plugin marketplace add aptaheri94-ai/CLAUDE-MODS- || true
+# The marketplace repo must be public: a setup script has no GitHub token, so
+# a private repo fails here (it did, silently, while every line ended in
+# "|| true"). Failures are now printed; the script still exits 0 so a failed
+# mod never stops the session from starting.
+fail() { echo "cloud-setup: FAILED: $*" >&2; }
 
-for mod in savvy-progress skins filetree cache-tax blast-radius reflect-mod replay-theater; do
-  claude plugin install "$mod@my-mods" --scope user || true
+claude plugin marketplace add aptaheri94-ai/claude-mods- \
+  || fail "marketplace add aptaheri94-ai/claude-mods- (is the repo public?)"
+
+# reflect-mod is left out in the cloud: it writes to CLAUDE.md by itself, and
+# hamyarbot's CLAUDE.md is capped and changed only with the owner's word.
+for mod in savvy-progress skins filetree cache-tax blast-radius replay-theater; do
+  claude plugin install "$mod@my-mods" --scope user || fail "install $mod"
 done
 
-claude plugin enable cc-plugin-you-should-know@builtin || true
+# cache-tax: no automatic keepwarm (it spends tokens); /keepwarm still arms it.
+echo '{"autoWarm":"off"}' | claude plugin configure cache-tax@my-mods --values-stdin \
+  || fail "cache-tax autoWarm off"
+
+claude plugin enable cc-plugin-you-should-know@builtin || fail "enable you-should-know"
 
 # Skins keeps its made skins and chosen look in a per-mod store file named
 # skins_my-mods-<first 12 hex of sha256("skins@my-mods")>.json. Seed it with
-# the purple-night skin so cloud sessions start in it. An existing store file
+# the purple-night skin (skins-seed.json in this repo, so the script itself
+# stays left-to-right) so cloud sessions start in it. An existing store file
 # is left alone, so a look changed later in the cloud is not overwritten.
-store_dir="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/plugins/store"
-store_file="$store_dir/skins_my-mods-eb9daee7b1d1.json"
+cfg="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+seed="$cfg/plugins/marketplaces/my-mods/skins-seed.json"
+store_file="$cfg/plugins/store/skins_my-mods-eb9daee7b1d1.json"
 if [ ! -e "$store_file" ]; then
-  mkdir -p "$store_dir" && cat > "$store_file" <<'JSON' || true
-{
-  "custom": {
-    "purple-night": {
-      "name": "purple-night",
-      "label": "purple-night",
-      "base": "dracula",
-      "palette": {
-        "user": "#a978ff", "fg": "#e6e1f5", "muted": "#a49cbf",
-        "surface": "#221b33", "zebra": "#1b1628",
-        "read": "#8fb8ff", "write": "#e87ba4", "run": "#ffcb6b",
-        "search": "#7fdbca", "web": "#6da7ec", "mcp": "#c3a6ff", "other": "#b8b0d0",
-        "ok": "#7ee08a", "err": "#ff6b81", "warn": "#f0b45e"
-      },
-      "spinner": ["در حال فکر", "در حال کار", "در حال ساختن", "در حال بررسی", "در حال نوشتن"],
-      "done": ["تمام شد", "انجام شد", "آماده شد"]
-    }
-  },
-  "prefs": {
-    "skin": "purple-night", "icons": "unicode", "prompt": "left", "words": "skin",
-    "rail": true, "tables": "on", "shimmer": true, "band": true, "countdown": false,
-    "clipOutput": false, "markdown": true, "quiet": false, "charts": true, "math": true,
-    "commands": true, "shell": true, "highlight": true, "hints": true, "links": true,
-    "copy": true, "fold": true, "expand": false, "compact": true, "calm": null
-  }
-}
-JSON
+  mkdir -p "$cfg/plugins/store" && cp "$seed" "$store_file" || fail "skins seed"
 fi
 
 exit 0

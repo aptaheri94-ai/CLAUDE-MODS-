@@ -32,7 +32,9 @@ Desktop app: click + next to the prompt box, then Plugins, Add marketplace with 
 
 ## Cloud sessions (Claude Code on the web)
 
-Cloud sessions don't install plugins from a repo's `.claude/settings.json`, and plugins installed on your own machine don't carry over. Instead, paste [`cloud-setup.sh`](cloud-setup.sh) into your cloud environment's **Setup script** box (claude.ai/code → environment settings). It runs before a session starts, installs every mod above plus You Should Know, and the environment cache keeps them for later sessions. The environment's network access must allow GitHub (the default **Limited** level does).
+Cloud sessions don't install plugins from a repo's `.claude/settings.json`, and plugins installed on your own machine don't carry over. Instead, paste [`cloud-setup.sh`](cloud-setup.sh) into your cloud environment's **Setup script** box (claude.ai/code → environment settings). It runs before a session starts, installs the mods above (all but `reflect-mod`, which writes to CLAUDE.md by itself) plus You Should Know, turns cache-tax's `autoWarm` off, seeds the Skins look from [`skins-seed.json`](skins-seed.json), and the environment cache keeps them for later sessions. The environment's network access must allow GitHub (the default **Limited** level does).
+
+**This repository must stay public** for that: a setup script has no GitHub token, so a private marketplace fails to install. A failed step prints `cloud-setup: FAILED: …` in the session's setup log; the session still starts. Setup scripts must read left to right, which is why the Skins look (with Persian words) is a separate file.
 
 ## Updating a mod
 

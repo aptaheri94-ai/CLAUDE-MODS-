@@ -1,0 +1,64 @@
+{
+  "custom": {
+    "purple-night": {
+      "name": "purple-night",
+      "label": "purple-night",
+      "base": "dracula",
+      "palette": {
+        "user": "#a978ff",
+        "fg": "#e6e1f5",
+        "muted": "#a49cbf",
+        "surface": "#221b33",
+        "zebra": "#1b1628",
+        "read": "#8fb8ff",
+        "write": "#e87ba4",
+        "run": "#ffcb6b",
+        "search": "#7fdbca",
+        "web": "#6da7ec",
+        "mcp": "#c3a6ff",
+        "other": "#b8b0d0",
+        "ok": "#7ee08a",
+        "err": "#ff6b81",
+        "warn": "#f0b45e"
+      },
+      "spinner": [
+        "در حال فکر",
+        "در حال کار",
+        "در حال ساختن",
+        "در حال بررسی",
+        "در حال نوشتن"
+      ],
+      "done": [
+        "تمام شد",
+        "انجام شد",
+        "آماده شد"
+      ]
+    }
+  },
+  "prefs": {
+    "skin": "purple-night",
+    "icons": "unicode",
+    "prompt": "left",
+    "words": "skin",
+    "rail": true,
+    "tables": "on",
+    "shimmer": true,
+    "band": true,
+    "countdown": false,
+    "clipOutput": false,
+    "markdown": true,
+    "quiet": false,
+    "charts": true,
+    "math": true,
+    "commands": true,
+    "shell": true,
+    "highlight": true,
+    "hints": true,
+    "links": true,
+    "copy": true,
+    "fold": true,
+    "expand": false,
+    "compact": true,
+    "calm": null
+  }
+}
